@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace LikeTet
 { 
-public class AppState   {
+	public class AppState: MonoBehaviour   {
     /////////////////////////////////////////////////////////////
     #region Variables
     public EAppStateId mId; // переменная перечисления для установки номера состояния
