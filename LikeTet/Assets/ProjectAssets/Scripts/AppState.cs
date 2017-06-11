@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace LikeTet
 { 
-	public class AppState: MonoBehaviour   {
+	public  class AppState   {
     /////////////////////////////////////////////////////////////
     #region Variables
     public EAppStateId mId; // переменная перечисления для установки номера состояния
@@ -16,34 +16,34 @@ namespace LikeTet
         /////////////////////////////////////////////////////////////
 
 
-        public void Activate (IStateData data, bool reset)
+		public  virtual void Activate (IStateData data, bool reset)
 	{
-		Debug.Log ("Activate");
+		//Debug.Log ("Activate APP STATE");
 	}
-	public void Deactivate ()
+		public  virtual void Deactivate ()
 	{
-		Debug.Log ("Deactivate");
+		//Debug.Log ("Deactivate");
 	}
 
-        public void Initialize() // выполняется при запуске метод start
+        public  virtual void Initialize() // выполняется при запуске метод start
         {
-            Debug.Log("Initialize");
+			// AppRoot.Instance.
            // mId = EAppStateId.Game;
 
         }
-
-        public void Update()
+			
+		public virtual void Update()
+		{
+			 Debug.Log ("Update from AppState");
+		}
+			
+        public virtual void OnGUI()
         {
-            Debug.Log("Update"); /// выполняется каждую секунду Update от AppRoot
+          //  Debug.Log("OnGUI");
         }
-
-        public void OnGUI()
+        public virtual void OnUiAction(GameObject pressedGo, object p)
         {
-            Debug.Log("OnGUI");
-        }
-        public void OnUiAction(GameObject pressedGo, object p)
-        {
-            Debug.Log("OnUiAction");
+           // Debug.Log("OnUiAction");
         }
 
 
