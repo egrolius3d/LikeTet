@@ -20,6 +20,10 @@ namespace LikeTet
 
 		public override void Update ()
 		{
+			if (Input.GetKeyDown(KeyCode.LeftShift))
+				{
+				AppRoot.Instance.SetState (EAppStateId.Game);
+				}
 			Debug.Log ("Update from Main Menu");
 		}
 	}

@@ -24,6 +24,7 @@ namespace LikeTet
 
 		public   override void Activate (IStateData data, bool reset)
 		{
+			
 			Debug.Log ("Activate from Game State");
 			//GameObject.Instantiate (Resources.Load (basicShapesPath [Random.Range (0, 5)]));
 
@@ -35,7 +36,10 @@ namespace LikeTet
 		}
 		public   override void Deactivate ()
 		{
-			
+			Debug.Log("000000000000000000000000000000000000000000000000000000000");
+			while (GameObject.FindWithTag("basicShape")!=null)
+			Object.Destroy (GameObject.FindWithTag("basicShape"));
+
 		}
 		public  override void Initialize () //state start
 		{
@@ -44,14 +48,20 @@ namespace LikeTet
 
 		public override void Update ()
 		{
-
+					
 			if (!fallingShape.GetComponent<Figure> ().enabled) {
+				if (fallingShape.GetComponent<Figure> ().IsAboveGridCheck ()) {
+
+					Debug.Log ("Game Over 111111111111111111111111111");
+					this.Deactivate ();
+					AppRoot.Instance.SetState (EAppStateId.MainMenu, true);
+				}
 				fallingShape = nextShape;
 				fallingShape.transform.position = new Vector3 (5, 19, 0);
 				fallingShape.GetComponent<Figure> ().enabled = true;
+
 				SpawnNewNextFigure ();
 			}
-
 
 
 

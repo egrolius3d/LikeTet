@@ -121,7 +121,7 @@ namespace LikeTet
                 Debug.Log("Init+" + statePair.Value);
             }
 
-			SetState(EAppStateId.Game);
+			SetState(EAppStateId.MainMenu);
             //mCurState.Initialize();
         }
 
