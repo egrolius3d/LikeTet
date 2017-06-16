@@ -18,7 +18,7 @@ namespace LikeTet
 
 		public  virtual void Activate (IStateData data, bool reset)
 	{
-		//Debug.Log ("Activate APP STATE");
+			DestroyAllGameObjects ();//Debug.Log ("Activate APP STATE");
 	}
 		public  virtual void Deactivate ()
 	{
@@ -46,6 +46,14 @@ namespace LikeTet
            // Debug.Log("OnUiAction");
         }
 
+		public static void DestroyAllGameObjects()
+		{
+			GameObject[] gameObjects = GameObject.FindGameObjectsWithTag ("basicShape");
+			for (var i = 0; i < gameObjects.Length; i++) 
+			{
+				AppRoot.Destroy (gameObjects [i]);
+			}
 
+		}
 }
 }

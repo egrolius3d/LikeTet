@@ -24,22 +24,24 @@ namespace LikeTet
 
 		public   override void Activate (IStateData data, bool reset)
 		{
-			
+			mId = EAppStateId.Game;
+
 			Debug.Log ("Activate from Game State");
+			Debug.Log ("This is game Mid = "+mId);
+			Debug.Log ("This is base Mid = "+base.mId);
 			//GameObject.Instantiate (Resources.Load (basicShapesPath [Random.Range (0, 5)]));
 
-			fallingShape=  GameObject.Instantiate (Resources.Load (basicShapesPath [Random.Range(0,6)]),new Vector3(5,19,0),Quaternion.identity ) as GameObject;
+			fallingShape=  GameObject.Instantiate (Resources.Load (basicShapesPath [Random.Range(0,7)]),new Vector3(5,21,0),Quaternion.identity ) as GameObject;
 
-			nextShape = GameObject.Instantiate (Resources.Load (basicShapesPath [Random.Range(0,6)]),new Vector3(15,15,0), Quaternion.identity) as GameObject;
+			nextShape = GameObject.Instantiate (Resources.Load (basicShapesPath [Random.Range(0,7)]),new Vector3(15,15,0), Quaternion.identity) as GameObject;
 			nextShape.GetComponent<Figure>().enabled = false;
 
 		}
 		public   override void Deactivate ()
 		{
-			Debug.Log("000000000000000000000000000000000000000000000000000000000");
-			while (GameObject.FindWithTag("basicShape")!=null)
-			Object.Destroy (GameObject.FindWithTag("basicShape"));
-
+			DestroyAllGameObjects ();
+			fallingShape = null;
+			Debug.Log ("deactivate from gameState");
 		}
 		public  override void Initialize () //state start
 		{
@@ -48,21 +50,26 @@ namespace LikeTet
 
 		public override void Update ()
 		{
-					
+
 			if (!fallingShape.GetComponent<Figure> ().enabled) {
 				if (fallingShape.GetComponent<Figure> ().IsAboveGridCheck ()) {
-
 					Debug.Log ("Game Over 111111111111111111111111111");
-					this.Deactivate ();
-					AppRoot.Instance.SetState (EAppStateId.MainMenu, true);
+					AppRoot.Instance.SetState (EAppStateId.MainMenu);
 				}
-				fallingShape = nextShape;
-				fallingShape.transform.position = new Vector3 (5, 19, 0);
-				fallingShape.GetComponent<Figure> ().enabled = true;
+				if (fallingShape != null) {
+					fallingShape = nextShape;
+					fallingShape.transform.position = new Vector3 (5, 21, 0);
+					fallingShape.GetComponent<Figure> ().enabled = true;
+					SpawnNewNextFigure ();
+				}
 
-				SpawnNewNextFigure ();
 			}
+			if (Input.GetKeyDown (KeyCode.Q)) 
+			{
+				DestroyAllGameObjects ();
 
+				AppRoot.Instance.SetState (EAppStateId.MainMenu);
+			}
 
 
 
@@ -79,9 +86,11 @@ namespace LikeTet
 		}
 		public   void SpawnNewNextFigure()
 		{
-			nextShape = GameObject.Instantiate (Resources.Load (basicShapesPath [Random.Range(0,6)]),new Vector3(15,15,0), Quaternion.identity) as GameObject;
+			nextShape = GameObject.Instantiate (Resources.Load (basicShapesPath [Random.Range(0,7)]),new Vector3(15,15,0), Quaternion.identity) as GameObject;
 			nextShape.GetComponent<Figure>().enabled = false;
 		}
+
+
 
 }
 

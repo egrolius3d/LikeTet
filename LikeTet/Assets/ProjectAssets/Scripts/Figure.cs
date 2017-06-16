@@ -11,7 +11,7 @@ public class Figure : MonoBehaviour {
 	public float fallSpeed=1;
 	public float hightFallSpeed = 3;
 	float fall=0;
-		
+	public int howManyRows = 0;
 
 	void Update () {
 		CheckUserInput ();
@@ -23,7 +23,7 @@ public class Figure : MonoBehaviour {
 			foreach (Transform child in this.transform) 
 			{
 				Vector3 pos = round (child.position);
-				if (pos.y > 19)
+				if (pos.y >= 20)
 					return true;
 				
 			
@@ -147,6 +147,7 @@ public class Figure : MonoBehaviour {
 		for (int x = 0; x < gridWeight; ++x)
 			if (grid [x, y] == null)
 				return false;
+		//plase number of rows
 		return true;
 	}
 

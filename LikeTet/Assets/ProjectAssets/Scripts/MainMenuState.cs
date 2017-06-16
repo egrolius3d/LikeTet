@@ -7,6 +7,7 @@ namespace LikeTet
 
 		public override void Activate (IStateData data, bool reset)
 		{
+			
 			Debug.Log ("Activate main menu");
 
 		}
@@ -20,10 +21,11 @@ namespace LikeTet
 
 		public override void Update ()
 		{
-			if (Input.GetKeyDown(KeyCode.LeftShift))
-				{
+			if (Input.GetKeyDown (KeyCode.LeftShift)) 
+			{
 				AppRoot.Instance.SetState (EAppStateId.Game);
-				}
+			}
+
 			Debug.Log ("Update from Main Menu");
 		}
 	}
