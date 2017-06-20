@@ -155,6 +155,7 @@ public class Figure : MonoBehaviour {
 	{
 		for (int x = 0; x < gridWeight; ++x) 
 		{
+			
 			Destroy (grid [x, y].gameObject);
 			grid [x, y] = null;
 		}
