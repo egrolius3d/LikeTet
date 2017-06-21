@@ -14,12 +14,13 @@ namespace LikeTet
 		private static int totalLinesCount=0;
 		private static int oneTurnLinesCount=0;
 		private static int levelCount=1;
+		public static int currentLevel=0;
 
 		public static int gridWeight = 10;
 		public static int gridHeight = 24;
 		public static Transform[,] grid = new Transform [gridWeight,gridHeight];
 
-		public float fallSpeed=1;
+		public static float fallSpeed=1;
 		public float hightFallSpeed = 3;
 		float fall=0;
 		public int howManyRows = 0;
@@ -51,6 +52,7 @@ namespace LikeTet
 
 		public   override void Activate (IStateData data, bool reset)
 		{
+			ResetScore ();
 			mId = EAppStateId.Game;
 			SetScoreText ();
 			Debug.Log ("Activate from Game State");
@@ -66,6 +68,7 @@ namespace LikeTet
 		}
 		public   override void Deactivate ()
 		{
+			ResetScore ();
 			DestroyAllGameObjects ("basicShape");
 			GameObject.Destroy (nextShape);
 			GameObject.Destroy (fallingShape);
@@ -76,11 +79,15 @@ namespace LikeTet
 		{
 			Debug.Log ("Initialize  game state");
 		}
-
+			
+		/////////////////////////////////////////////////////////////////////
+	
 		public override void Update ()
 		{
 			UpdateScore ();
 			this.UpdateUI ();
+			UpdateLevel ();
+			UpdateFallSpeed();
 			CheckUserInput ();
 
 			if (fallingShape== null) {
@@ -363,6 +370,23 @@ namespace LikeTet
 			totalLinesText.GetComponent<Text>().text= totalLinesCount.ToString ();
 			levelText.GetComponent<Text>().text = levelCount.ToString ();
 		}
+		public static void ResetScore ()
+		{
+			scoreCount=0;
+			totalLinesCount=0;
+			oneTurnLinesCount=0;
+			levelCount=1;
+		}
+		public static void UpdateLevel()
+		{
+			levelCount = totalLinesCount / 10;
+
+		}
+		public  static void UpdateFallSpeed()
+		{
+			fallSpeed= 1.0f- (float)levelCount*0.1f;
+		}
+
 }
 
 }
