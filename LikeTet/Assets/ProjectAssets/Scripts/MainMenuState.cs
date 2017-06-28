@@ -13,6 +13,14 @@ namespace LikeTet
 		GameObject helpButton;
 		GameObject rulesButton;
 		GameObject aboutButton;
+		GameObject okRulesButton;
+		GameObject okAboutButton;
+
+		GameObject mainMenuPanel;
+		GameObject rulesPanel;
+		GameObject aboutPanel;
+
+		GameObject gridMain;
 
 		public override void Activate (IStateData data, bool reset)
 		{
@@ -29,7 +37,15 @@ namespace LikeTet
 			helpButton = GameObject.Find ("HelpButton");
 			rulesButton = GameObject.Find ("RulesButton");
 			aboutButton = GameObject.Find ("AboutButton");
+			okAboutButton = GameObject.Find ("OkAboutButton");
+			okRulesButton = GameObject.Find ("OkRulesButton");
 
+			mainMenuPanel = GameObject.Find ("MainMenuPanel");
+			rulesPanel = GameObject.Find ("RulesPanel");
+			aboutPanel = GameObject.Find ("AboutPanel");
+
+			gridMain = GameObject.Find ("Grid");
+	
 			gameButton.GetComponent<Button>().onClick.AddListener (OnClickGameButton);
 			exitButton.GetComponent<Button>().onClick.AddListener (OnClickExitButton);
 			newGameButton.GetComponent<Button>().onClick.AddListener (OnClickNewGameButton);
@@ -38,11 +54,18 @@ namespace LikeTet
 			rulesButton.GetComponent<Button>().onClick.AddListener (OnClickRulesButton);
 			aboutButton.GetComponent<Button>().onClick.AddListener (OnClickAboutButton);
 
+			okRulesButton.GetComponent<Button> ().onClick.AddListener (OnClickOkRulesAbouButton);
+			okAboutButton.GetComponent<Button> ().onClick.AddListener (OnClickOkRulesAbouButton);
+
+			aboutPanel.SetActive (false);
+			rulesPanel.SetActive (false);
 
 			newGameButton.SetActive (false);
 			exitButton.SetActive (false);
 			rulesButton.SetActive (false);
 			aboutButton.SetActive (false);
+
+			gridMain.SetActive (true);
 			Debug.Log("Initialize main menu state");
 			// mId = EAppStateId.Game;
 
@@ -86,21 +109,38 @@ namespace LikeTet
 
 		public void OnClickHelpButton()
 		{
+			AppRoot.Instance.SetState (EAppStateId.MainMenu);
 			rulesButton.SetActive (true);
 			aboutButton.SetActive (true);
 		}
 
 		public void OnClickRulesButton()
 		{
-			
+			gridMain.SetActive (false);
+			mainMenuPanel.SetActive (false);
+
+			rulesPanel.SetActive (true);
 			rulesButton.SetActive (false);
 			aboutButton.SetActive (false);
 		}
 
 		public void OnClickAboutButton()
 		{
+			gridMain.SetActive (false);
+			mainMenuPanel.SetActive (false);
+			aboutPanel.SetActive (true);
 			rulesButton.SetActive (false);
 			aboutButton.SetActive (false);
+		}
+
+		public void OnClickOkRulesAbouButton ()
+		{
+			
+			gridMain.SetActive (true);
+			mainMenuPanel.SetActive (true);
+			rulesPanel.SetActive (false);
+			aboutPanel.SetActive (false);
+
 		}
 
 	}

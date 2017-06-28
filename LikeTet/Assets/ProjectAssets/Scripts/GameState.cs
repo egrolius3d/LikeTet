@@ -36,6 +36,7 @@ namespace LikeTet
 		GameObject nextShape;
 		GameObject lastShape;
 
+
 		public string[] basicShapesPath = new string[7]
 		{
 			"Models/ShapeI",
@@ -63,7 +64,7 @@ namespace LikeTet
 			fallingShape=  GameObject.Instantiate (Resources.Load (basicShapesPath [Random.Range(0,7)]),new Vector3(5,21,0),Quaternion.identity ) as GameObject;
 
 			nextShape = GameObject.Instantiate (Resources.Load (basicShapesPath [Random.Range(0,7)]),new Vector3(15,15,0), Quaternion.identity) as GameObject;
-			nextShape.GetComponent<Figure>().enabled = false;
+
 
 		}
 		public   override void Deactivate ()
@@ -84,6 +85,7 @@ namespace LikeTet
 	
 		public override void Update ()
 		{
+
 			UpdateScore ();
 			this.UpdateUI ();
 			UpdateLevel ();
@@ -180,6 +182,7 @@ namespace LikeTet
 				}
 
 				fallingShape.transform.position += new Vector3 (0,1,0);
+
 				DeleteRow ();
 				lastShape = fallingShape;
 
@@ -197,6 +200,7 @@ namespace LikeTet
 					GridUpdate ();
 				} else {
 					fallingShape.transform.position += new Vector3 (0,1,0);
+
 					DeleteRow ();
 					lastShape = fallingShape;
 
@@ -272,14 +276,17 @@ namespace LikeTet
 			oneTurnLinesCount++;
 			return true;
 		}
+		/// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		public static void Delete (int y)
 		{
-			for (int x = 0; x < gridWeight; ++x) 
-			{
-				Object.Destroy (grid [x, y].gameObject);
-				grid [x, y] = null;
-			}
+			//AppRoot.Instance.StartCoroutine (VanishingCoroutine(y));
+
+				for (int x = 0; x < gridWeight; ++x) {
+					Object.Destroy (grid [x, y].gameObject);
+					grid [x, y] = null;
+				}
+			
 		}
 
 		public static void DeleteRow()
@@ -289,10 +296,15 @@ namespace LikeTet
 				if (IsRowFull (y)) 
 				{
 					Delete (y);
+					//while (IsRowFull (y)) {
+					//}
+					//Delete (y);
+
 					MoveRowDownAll (y + 1);
 					--y;
 
 				}
+
 			}
 
 		}
@@ -358,7 +370,6 @@ namespace LikeTet
 		{
 			scoreText= GameObject.Find ("scoreText");
 
-			//oneTurnLinesText  scriptText = GameObject.Find ("/Canvas/CountText").GetComponent ("Text (Script)");
 			totalLinesText = GameObject.Find ("lineCountText");
 
 			levelText= GameObject.Find ("levelText");
@@ -387,6 +398,35 @@ namespace LikeTet
 			fallSpeed= 1.0f- (float)levelCount*0.1f;
 		}
 
+		static IEnumerator VanishingCoroutine (int y){
+			for (float f = 1f; f >= 0; f -= 0.1f) {
+				for (int x = 0; x < gridWeight; ++x) {
+					Renderer objRenderer;
+					objRenderer = grid [x, y].GetComponent<Renderer> ();
+
+					Color c = grid [x, y].GetComponent<Renderer> ().material.color;
+					c.a = f;
+					Debug.Log (c.a);
+					Debug.Log (grid [x, y].GetComponent<Renderer> ());
+
+					objRenderer.material.color = c;
+					Debug.Log ("000000000000000000000000000");
+					Debug.Log (grid [x, y].GetComponent<Renderer> ().material.color.a + " Color alpha");
+				}
+				yield return new WaitForSeconds (0.1f);
+			}
+
+
+		}
+
+		static IEnumerator DestroyerCoroutine (int y){
+			yield return AppRoot.Instance.StartCoroutine (VanishingCoroutine(y));
+			for (int x = 0; x < gridWeight; ++x) {
+				Object.Destroy (grid [x, y].gameObject);
+				grid [x, y] = null;
+			}
+
+		}
 }
 
 }
