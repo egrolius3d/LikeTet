@@ -5,7 +5,6 @@ using UnityEngine.UI;
 namespace LikeTet
 {
 	public class MainMenuState : AppState {
-		
 		GameObject gameButton;
 		GameObject newGameButton;
 		GameObject exitButton;
@@ -24,13 +23,14 @@ namespace LikeTet
 
 		public override void Activate (IStateData data, bool reset)
 		{
-			
+			mId = EAppStateId.MainMenu;
 			Debug.Log ("Activate main menu");
 
 		}
 
-		public  override void Initialize() // выполняется при запуске метод start
+		public  override void Initialize() // выполняется при запуске 
 		{
+
 			gameButton = GameObject.Find ("GameButton");
 			exitButton = GameObject.Find ("ExitButton");
 			newGameButton = GameObject.Find ("NewGameButton");
@@ -46,6 +46,7 @@ namespace LikeTet
 
 			gridMain = GameObject.Find ("Grid");
 	
+
 			gameButton.GetComponent<Button>().onClick.AddListener (OnClickGameButton);
 			exitButton.GetComponent<Button>().onClick.AddListener (OnClickExitButton);
 			newGameButton.GetComponent<Button>().onClick.AddListener (OnClickNewGameButton);
@@ -67,7 +68,6 @@ namespace LikeTet
 
 			gridMain.SetActive (true);
 			Debug.Log("Initialize main menu state");
-			// mId = EAppStateId.Game;
 
 		}
 

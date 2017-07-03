@@ -88,7 +88,8 @@ namespace LikeTet
     public enum EAppStateId
     {
         MainMenu = 0,
-        Game
+        Game,
+		GameOver
     };
     #endregion
     ///////////////////////////////////////////////////////////////////////////

@@ -113,7 +113,7 @@ namespace LikeTet
             mStates[EAppStateId.Game] = new GameState();
             mStates[EAppStateId.MainMenu] = new MainMenuState();
             // mStates[EAppStateId.Pause] = new PauseState();
-            //mStates[EAppStateId.GameOver] = new GameOverState();
+            mStates[EAppStateId.GameOver] = new GameOverState();
 
             foreach (KeyValuePair<EAppStateId, AppState> statePair in mStates)
             {

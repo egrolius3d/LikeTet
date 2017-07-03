@@ -25,8 +25,6 @@ namespace LikeTet
 		float fall=0;
 		public int howManyRows = 0;
 
-		//Text scoreText;
-		//Text linesCountText;
 
 		GameObject totalLinesText;
 		GameObject scoreText;
@@ -59,7 +57,6 @@ namespace LikeTet
 			Debug.Log ("Activate from Game State");
 			Debug.Log ("This is game Mid = "+mId);
 			Debug.Log ("This is base Mid = "+base.mId);
-			//GameObject.Instantiate (Resources.Load (basicShapesPath [Random.Range (0, 5)]));
 
 			fallingShape=  GameObject.Instantiate (Resources.Load (basicShapesPath [Random.Range(0,7)]),new Vector3(5,21,0),Quaternion.identity ) as GameObject;
 
@@ -98,9 +95,8 @@ namespace LikeTet
 				fallingShape.transform.position = new Vector3 (5, 21, 0);
 				SpawnNewNextFigure ();
 				if (IsAboveGridCheck ()) {
-					Debug.Log ("Game Over 111111111111111111111111111");
-					//DestroyAllGameObjects ("basicShape");
-					AppRoot.Instance.SetState (EAppStateId.MainMenu);
+					Debug.Log ("Game Over");
+					AppRoot.Instance.SetState (EAppStateId.GameOver);
 				}
 					
 
@@ -118,6 +114,9 @@ namespace LikeTet
 			//Debug.Log ("Update from GameState");
 
 		}
+
+
+
 		public override void OnGUI()
 		{
 			// Debug.Log("OnGUI");
@@ -129,7 +128,6 @@ namespace LikeTet
 		public   void SpawnNewNextFigure()
 		{
 			nextShape = GameObject.Instantiate (Resources.Load (basicShapesPath [Random.Range(0,7)]),new Vector3(15,15,0), Quaternion.identity) as GameObject;
-			//nextShape.GetComponent<Figure>().enabled = false;
 		}
 
 
@@ -148,6 +146,7 @@ namespace LikeTet
 			}
 			return false;
 		}
+
 		void CheckUserInput()
 		{
 			if (Input.GetKeyDown (KeyCode.LeftArrow)) {
@@ -223,8 +222,7 @@ namespace LikeTet
 			}
 		}
 
-		bool isValidPosition () 
-		{
+		bool isValidPosition () {
 			foreach (Transform child in fallingShape.transform) 
 			{
 				Vector3 curVector= round (child.position);
@@ -236,17 +234,14 @@ namespace LikeTet
 			}
 			return true;
 		}
-		public static Vector3 round (Vector3 curVector)
-		{
+		public static Vector3 round (Vector3 curVector){
 			return new Vector3 (Mathf.Round (curVector.x), Mathf.Round (curVector.y), 0);
 		}
-		public static bool isInsideGrid  (Vector3 pos)
-		{
+		public static bool isInsideGrid  (Vector3 pos){
 			return ((int)pos.x>= 0 && (int)pos.x< gridWeight && (int)pos.y>=0);
 		}
 
-		void GridUpdate ()
-		{
+		void GridUpdate (){
 			for (int y = 0; y < gridHeight; ++y) 
 			{
 				//Debug.Log (y);
@@ -410,7 +405,6 @@ namespace LikeTet
 					Debug.Log (grid [x, y].GetComponent<Renderer> ());
 
 					objRenderer.material.color = c;
-					Debug.Log ("000000000000000000000000000");
 					Debug.Log (grid [x, y].GetComponent<Renderer> ().material.color.a + " Color alpha");
 				}
 				yield return new WaitForSeconds (0.1f);
