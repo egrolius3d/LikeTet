@@ -14,13 +14,13 @@ namespace LikeTet
 		private static int totalLinesCount=0;
 		private static int oneTurnLinesCount=0;
 		private static int levelCount=1;
-		public static int currentLevel=0;
+		public static int currentLevel=1;
 
 		public static int gridWeight = 10;
 		public static int gridHeight = 24;
 		public static Transform[,] grid = new Transform [gridWeight,gridHeight];
 
-		public static float fallSpeed=1;
+		public static int fallSpeed=2;
 		public float hightFallSpeed = 3;
 		float fall=0;
 		public int howManyRows = 0;
@@ -61,6 +61,7 @@ namespace LikeTet
 			fallingShape=  GameObject.Instantiate (Resources.Load (basicShapesPath [Random.Range(0,7)]),new Vector3(5,21,0),Quaternion.identity ) as GameObject;
 
 			nextShape = GameObject.Instantiate (Resources.Load (basicShapesPath [Random.Range(0,7)]),new Vector3(15,15,0), Quaternion.identity) as GameObject;
+			AppRoot.Instance.StartCoroutine (MoveDownCoroutine());
 
 
 		}
@@ -82,12 +83,14 @@ namespace LikeTet
 	
 		public override void Update ()
 		{
+			//AppRoot.Instance.StartCoroutine (CheckUserInputCoroutine());
 
-			UpdateScore ();
+			//UpdateScore ();
 			this.UpdateUI ();
-			UpdateLevel ();
+			//UpdateLevel ();
 			UpdateFallSpeed();
 			CheckUserInput ();
+
 
 			if (fallingShape== null) {
 
@@ -147,7 +150,7 @@ namespace LikeTet
 			return false;
 		}
 
-		void CheckUserInput()
+			void CheckUserInput()
 		{
 			if (Input.GetKeyDown (KeyCode.LeftArrow)) {
 				fallingShape.transform.position += new Vector3 (-1,0,0);
@@ -172,43 +175,78 @@ namespace LikeTet
 				while (isValidPosition ())
 				{
 					fallingShape.transform.position += new Vector3 (0, -1, 0);
-					if (!isValidPosition ()) 
-					{
+					if (!isValidPosition ()) {
+						fallingShape.transform.position += new Vector3 (0, 1, 0);
 						break;
 					}
+					//	for (int y = 0; y < gridHeight; ++y) 
+					//	{
+					//		if (IsRowFull (y)) 
+					//		{
+					//			yield return AppRoot.Instance.StartCoroutine (DestroyerCoroutine (y));
+					//			//AppRoot.Instance.StartCoroutine (DestroyerCoroutine(y));
+
+					//			Debug.Log ("After cocoutine");
+					//			for (int x = 0; x < gridWeight; ++x) {
+					//				Object.Destroy (grid [x, y].gameObject);
+					//				grid [x, y] = null;
+					//			}
+								//Delete (y);
+								//while (IsRowFull (y)) {
+								//}
+								//Delete (y);
+
+						//		MoveRowDownAll (y + 1);
+						//		--y;
+
+						//	}
+
+						//}
+						//break;
+					//}
 
 					GridUpdate (); 
 				}
 
-				fallingShape.transform.position += new Vector3 (0,1,0);
+				//fallingShape.transform.position += new Vector3 (0,1,0);
 
-				DeleteRow ();
-				lastShape = fallingShape;
+				//DeleteRow ();
+				//for (int y = 0; y < gridHeight; ++y) 
+			//	{
+				//	if (IsRowFull (y)) 
+				//	{
+				//		yield return AppRoot.Instance.StartCoroutine (DestroyerCoroutine (y));
+						//AppRoot.Instance.StartCoroutine (DestroyerCoroutine(y));
+
+				//		Debug.Log ("After cocoutine");
+				//		for (int x = 0; x < gridWeight; ++x) {
+				//			Object.Destroy (grid [x, y].gameObject);
+				//			grid [x, y] = null;
+				//		}
+						//Delete (y);
+						//while (IsRowFull (y)) {
+						//}
+						//Delete (y);
+
+				//		MoveRowDownAll (y + 1);
+				//		--y;
+
+				//	}
+
+				//}
 
 
-				fallingShape = null;
+				//DeleteRow ();
+				//lastShape = fallingShape;
+
+
+				//fallingShape = null;
 
 
 
 			}
 			////////////////////////////////////////////////////////////////////////
-			else if (Time.time-fall>=fallSpeed) 
-			{
-				fallingShape.transform.position += new Vector3 (0,-1,0);
-				if (isValidPosition ()) {
-					GridUpdate ();
-				} else {
-					fallingShape.transform.position += new Vector3 (0,1,0);
 
-					DeleteRow ();
-					lastShape = fallingShape;
-
-
-					fallingShape=null;
-
-				}
-				fall = Time.time;
-			}
 
 
 			////////////////////////////////////////////////////////////////////////
@@ -234,10 +272,10 @@ namespace LikeTet
 			}
 			return true;
 		}
-		public static Vector3 round (Vector3 curVector){
+		public  Vector3 round (Vector3 curVector){
 			return new Vector3 (Mathf.Round (curVector.x), Mathf.Round (curVector.y), 0);
 		}
-		public static bool isInsideGrid  (Vector3 pos){
+		public  bool isInsideGrid  (Vector3 pos){
 			return ((int)pos.x>= 0 && (int)pos.x< gridWeight && (int)pos.y>=0);
 		}
 
@@ -262,35 +300,39 @@ namespace LikeTet
 			}
 
 		}
-		public static bool IsRowFull (int y)
+		public  bool IsRowFull (int y)
 		{
 			for (int x = 0; x < gridWeight; ++x)
 				if (grid [x, y] == null)
 					return false;
 			/////////////////////////////////////////////
-			oneTurnLinesCount++;
+			//oneTurnLinesCount++;
 			return true;
 		}
 		/// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-		public static void Delete (int y)
+		public  void Delete (int y)
 		{
-			//AppRoot.Instance.StartCoroutine (VanishingCoroutine(y));
+			//yield return AppRoot.Instance.StartCoroutine (DestroyerCoroutine(y));
 
-				for (int x = 0; x < gridWeight; ++x) {
-					Object.Destroy (grid [x, y].gameObject);
-					grid [x, y] = null;
-				}
-			
+			//	for (int x = 0; x < gridWeight; ++x) {
+			//		Object.Destroy (grid [x, y].gameObject);
+			//		grid [x, y] = null;
+			//	}
+
 		}
 
-		public static void DeleteRow()
+		public  void DeleteRow()
 		{
 			for (int y = 0; y < gridHeight; ++y) 
 			{
 				if (IsRowFull (y)) 
 				{
-					Delete (y);
+					Debug.Log ("Before cocoutine!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+					//AppRoot.Instance.StartCoroutine (DestroyerCoroutine(y));
+
+					Debug.Log ("After cocoutine");
+					//Delete (y);
 					//while (IsRowFull (y)) {
 					//}
 					//Delete (y);
@@ -304,7 +346,7 @@ namespace LikeTet
 
 		}
 
-		public static void MoveRowDown (int y) 
+		public  void MoveRowDown (int y) 
 		{
 			for (int x = 0; x < gridWeight; ++x) 
 			{
@@ -317,19 +359,19 @@ namespace LikeTet
 			}
 		}
 
-		public static void MoveRowDownAll (int y)
+		public  void MoveRowDownAll (int y)
 		{
 			for (int i = y; i < gridHeight; ++i)
 				MoveRowDown (i);
 		}
-		public static void DestroyAllGameObjects (string tag)
+		public  void DestroyAllGameObjects (string tag)
 		{
 			GameObject[] shapes = GameObject.FindGameObjectsWithTag (tag);
 				foreach (GameObject shape in shapes)
 				Object.Destroy (shape);
 		}
 
-		public static void UpdateScore()
+		public  void UpdateScore()
 		{
 			if (oneTurnLinesCount > 0) {
 				if (oneTurnLinesCount == 1) {
@@ -349,12 +391,15 @@ namespace LikeTet
 					SetLineScore (8);
 				}
 				totalLinesCount += oneTurnLinesCount;
+				if (totalLinesCount % 5 == 0) {
+					levelCount++;
+				}
 				oneTurnLinesCount = 0;
 			}
 		}
 
 
-		public static void  SetLineScore (int points)
+		public  void  SetLineScore (int points)
 		{
 			scoreCount += points;
 		}
@@ -376,51 +421,111 @@ namespace LikeTet
 			totalLinesText.GetComponent<Text>().text= totalLinesCount.ToString ();
 			levelText.GetComponent<Text>().text = levelCount.ToString ();
 		}
-		public static void ResetScore ()
+		public  void ResetScore ()
 		{
 			scoreCount=0;
 			totalLinesCount=0;
 			oneTurnLinesCount=0;
 			levelCount=1;
 		}
-		public static void UpdateLevel()
+		public  void UpdateLevel()
 		{
-			levelCount = totalLinesCount / 10;
+			levelCount = 1;
+			Debug.Log (levelCount + " Level count");
 
 		}
-		public  static void UpdateFallSpeed()
+		public  void UpdateFallSpeed()
 		{
-			fallSpeed= 1.0f- (float)levelCount*0.1f;
+			//fallSpeed= 1.0f- (float)levelCount*0.1f;
+			fallSpeed= levelCount;
 		}
 
-		static IEnumerator VanishingCoroutine (int y){
-			for (float f = 1f; f >= 0; f -= 0.1f) {
+		 IEnumerator VanishingCoroutine (int y){
+
+
+
+			for (float f = 1f; f >= 0; f -= 0.2f) {
 				for (int x = 0; x < gridWeight; ++x) {
-					Renderer objRenderer;
-					objRenderer = grid [x, y].GetComponent<Renderer> ();
+					if (grid [x, y] != null) {
+						Renderer objRenderer;
+						objRenderer = grid [x, y].GetComponent<Renderer> ();
 
-					Color c = grid [x, y].GetComponent<Renderer> ().material.color;
-					c.a = f;
-					Debug.Log (c.a);
-					Debug.Log (grid [x, y].GetComponent<Renderer> ());
+						Color c = grid [x, y].GetComponent<Renderer> ().material.color;
+						c.a = f;
+						Debug.Log (c.a);
+						Debug.Log (grid [x, y].GetComponent<Renderer> ());
 
-					objRenderer.material.color = c;
-					Debug.Log (grid [x, y].GetComponent<Renderer> ().material.color.a + " Color alpha");
+						objRenderer.material.color = c;
+						Debug.Log (grid [x, y].GetComponent<Renderer> ().material.color.a + " Color alpha");
+					}
 				}
-				yield return new WaitForSeconds (0.1f);
+				yield return new WaitForSeconds (0.0001f);
 			}
 
 
 		}
 
-		static IEnumerator DestroyerCoroutine (int y){
+		 IEnumerator DestroyerCoroutine (int y){
 			yield return AppRoot.Instance.StartCoroutine (VanishingCoroutine(y));
-			for (int x = 0; x < gridWeight; ++x) {
-				Object.Destroy (grid [x, y].gameObject);
-				grid [x, y] = null;
-			}
-
+			//Debug.Log ("After Vanishing");
+			//for (int x = 0; x < gridWeight; ++x) {
+			//	Object.Destroy (grid [x, y].gameObject);
+			//	grid [x, y] = null;
+			//}
+			yield return null;
 		}
-}
+
+		IEnumerator MoveDownCoroutine () {
+			yield return new WaitForSeconds (1f/levelCount); //1f/(fallSpeed+1)
+			Debug.Log (fallSpeed);
+
+			fallingShape.transform.position += new Vector3 (0,-1,0);
+			if (isValidPosition ()) {
+				GridUpdate ();
+			} else {
+					fallingShape.transform.position += new Vector3 (0,1,0);
+
+					for (int y = 0; y < gridHeight; ++y) 
+					{
+						if (IsRowFull (y)) 
+						{
+							oneTurnLinesCount++;
+
+							Debug.Log ("Eror11111111111111111111111111");
+							yield return AppRoot.Instance.StartCoroutine (DestroyerCoroutine (y));
+							//AppRoot.Instance.StartCoroutine (DestroyerCoroutine(y));
+
+							Debug.Log ("After cocoutine");
+							for (int x = 0; x < gridWeight; ++x) {
+								Object.Destroy (grid [x, y].gameObject);
+								grid [x, y] = null;
+							}
+							//Delete (y);
+							//while (IsRowFull (y)) {
+							//}
+							//Delete (y);
+
+							MoveRowDownAll (y + 1);
+							--y;
+
+						}
+						
+					}
+					UpdateScore ();
+					//UpdateLevel ();
+					//UpdateFallSpeed ();
+
+					//DeleteRow ();
+					lastShape = fallingShape;
+
+
+					fallingShape=null;
+
+
+				}
+			fall = Time.time;
+			AppRoot.Instance.StartCoroutine (MoveDownCoroutine());
+		}
+	}
 
 }
