@@ -5,6 +5,9 @@ using UnityEngine.UI;
 namespace LikeTet
 {
 	public class GameState  : AppState {
+		
+		///////////////////////////////////////////////////////////////////////////
+		#region Variables
 		public int oneLineScore = 1;
 		public int twoLineScore = 2;
 		public int threeLineScore = 3;
@@ -22,7 +25,6 @@ namespace LikeTet
 
 		public static int fallSpeed=2;
 		public float hightFallSpeed = 3;
-		float fall=0;
 		public int howManyRows = 0;
 
 
@@ -46,9 +48,11 @@ namespace LikeTet
 			"Models/ShapeZ"
 		};
 
+		#endregion
+		///////////////////////////////////////////////////////////////////////////
 
-
-
+		///////////////////////////////////////////////////////////////////////////
+		#region Implementation
 		public   override void Activate (IStateData data, bool reset)
 		{
 			ResetScore ();
@@ -80,14 +84,9 @@ namespace LikeTet
 		}
 			
 		/////////////////////////////////////////////////////////////////////
-	
 		public override void Update ()
 		{
-			//AppRoot.Instance.StartCoroutine (CheckUserInputCoroutine());
-
-			//UpdateScore ();
 			this.UpdateUI ();
-			//UpdateLevel ();
 			UpdateFallSpeed();
 			CheckUserInput ();
 
@@ -101,8 +100,6 @@ namespace LikeTet
 					Debug.Log ("Game Over");
 					AppRoot.Instance.SetState (EAppStateId.GameOver);
 				}
-					
-
 			}
 
 			if (Input.GetKeyDown (KeyCode.Q)) 
@@ -111,15 +108,8 @@ namespace LikeTet
 
 				AppRoot.Instance.SetState (EAppStateId.MainMenu);
 			}
-
-
-
-			//Debug.Log ("Update from GameState");
-
 		}
-
-
-
+		/////////////////////////////////////////////////////////////////////	
 		public override void OnGUI()
 		{
 			// Debug.Log("OnGUI");
@@ -143,8 +133,6 @@ namespace LikeTet
 					Vector3 pos = round (child.position);
 					if (pos.y >= 20)
 						return true;
-
-
 				}
 			}
 			return false;
@@ -152,115 +140,40 @@ namespace LikeTet
 
 			void CheckUserInput()
 		{
-			if (Input.GetKeyDown (KeyCode.LeftArrow)) {
-				fallingShape.transform.position += new Vector3 (-1,0,0);
-				if (isValidPosition ())
-					GridUpdate ();
-				else
-					fallingShape.transform.position += new Vector3 (1, 0, 0);
-
-			} 
-
-			else if (Input.GetKeyDown (KeyCode.RightArrow)) 
-			{
-				fallingShape.transform.position += new Vector3 (1,0,0);
-				if (isValidPosition ())
-					GridUpdate ();
-				else
+			if (fallingShape != null) {
+				if (Input.GetKeyDown (KeyCode.LeftArrow)) {
 					fallingShape.transform.position += new Vector3 (-1, 0, 0);
-			}
-			////////////////////////////////////////////////////////////////////
-			else if (Input.GetKeyDown (KeyCode.DownArrow)) 
-			{
-				while (isValidPosition ())
-				{
-					fallingShape.transform.position += new Vector3 (0, -1, 0);
-					if (!isValidPosition ()) {
-						fallingShape.transform.position += new Vector3 (0, 1, 0);
-						break;
+					if (isValidPosition ())
+						GridUpdate ();
+					else
+						fallingShape.transform.position += new Vector3 (1, 0, 0);
+				} else if (Input.GetKeyDown (KeyCode.RightArrow)) {
+					fallingShape.transform.position += new Vector3 (1, 0, 0);
+					if (isValidPosition ())
+						GridUpdate ();
+					else
+						fallingShape.transform.position += new Vector3 (-1, 0, 0);
+				} else if (Input.GetKeyDown (KeyCode.DownArrow)) {
+					while (isValidPosition ()) {
+						fallingShape.transform.position += new Vector3 (0, -1, 0);
+						if (!isValidPosition ()) {
+							fallingShape.transform.position += new Vector3 (0, 1, 0);
+							break;
+						}
+						GridUpdate (); 
 					}
-					//	for (int y = 0; y < gridHeight; ++y) 
-					//	{
-					//		if (IsRowFull (y)) 
-					//		{
-					//			yield return AppRoot.Instance.StartCoroutine (DestroyerCoroutine (y));
-					//			//AppRoot.Instance.StartCoroutine (DestroyerCoroutine(y));
-
-					//			Debug.Log ("After cocoutine");
-					//			for (int x = 0; x < gridWeight; ++x) {
-					//				Object.Destroy (grid [x, y].gameObject);
-					//				grid [x, y] = null;
-					//			}
-								//Delete (y);
-								//while (IsRowFull (y)) {
-								//}
-								//Delete (y);
-
-						//		MoveRowDownAll (y + 1);
-						//		--y;
-
-						//	}
-
-						//}
-						//break;
-					//}
-
-					GridUpdate (); 
+				} else if (Input.GetKeyDown (KeyCode.Space)) {
+					fallingShape.transform.Rotate (0, 0, 90);
+					if (isValidPosition ()) {
+						GridUpdate ();
+					} else
+						fallingShape.transform.Rotate (0, 0, -90);
 				}
-
-				//fallingShape.transform.position += new Vector3 (0,1,0);
-
-				//DeleteRow ();
-				//for (int y = 0; y < gridHeight; ++y) 
-			//	{
-				//	if (IsRowFull (y)) 
-				//	{
-				//		yield return AppRoot.Instance.StartCoroutine (DestroyerCoroutine (y));
-						//AppRoot.Instance.StartCoroutine (DestroyerCoroutine(y));
-
-				//		Debug.Log ("After cocoutine");
-				//		for (int x = 0; x < gridWeight; ++x) {
-				//			Object.Destroy (grid [x, y].gameObject);
-				//			grid [x, y] = null;
-				//		}
-						//Delete (y);
-						//while (IsRowFull (y)) {
-						//}
-						//Delete (y);
-
-				//		MoveRowDownAll (y + 1);
-				//		--y;
-
-				//	}
-
-				//}
-
-
-				//DeleteRow ();
-				//lastShape = fallingShape;
-
-
-				//fallingShape = null;
-
-
-
-			}
-			////////////////////////////////////////////////////////////////////////
-
-
-
-			////////////////////////////////////////////////////////////////////////
-			else if (Input.GetKeyDown (KeyCode.Space)) 
-			{
-				fallingShape.transform.Rotate (0,0,90);
-				if (isValidPosition ()) {
-					GridUpdate ();
-				} else
-					fallingShape.transform.Rotate (0, 0, -90);
 			}
 		}
 
-		bool isValidPosition () {
+		bool isValidPosition () 
+		{
 			foreach (Transform child in fallingShape.transform) 
 			{
 				Vector3 curVector= round (child.position);
@@ -272,20 +185,23 @@ namespace LikeTet
 			}
 			return true;
 		}
-		public  Vector3 round (Vector3 curVector){
+		public  Vector3 round (Vector3 curVector)
+		{
 			return new Vector3 (Mathf.Round (curVector.x), Mathf.Round (curVector.y), 0);
 		}
-		public  bool isInsideGrid  (Vector3 pos){
+		public  bool isInsideGrid  (Vector3 pos)
+		{
 			return ((int)pos.x>= 0 && (int)pos.x< gridWeight && (int)pos.y>=0);
 		}
 
-		void GridUpdate (){
+		void GridUpdate ()
+		{
 			for (int y = 0; y < gridHeight; ++y) 
 			{
-				//Debug.Log (y);
+				
 				for (int x = 0; x < gridWeight; ++x) 
 				{
-					//Debug.Log (x);
+					
 					if (grid [x, y] != null) 
 					{
 						if (grid [x, y].parent == fallingShape.transform)
@@ -300,52 +216,16 @@ namespace LikeTet
 			}
 
 		}
+
 		public  bool IsRowFull (int y)
 		{
 			for (int x = 0; x < gridWeight; ++x)
 				if (grid [x, y] == null)
 					return false;
-			/////////////////////////////////////////////
-			//oneTurnLinesCount++;
+			
 			return true;
 		}
-		/// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-		public  void Delete (int y)
-		{
-			//yield return AppRoot.Instance.StartCoroutine (DestroyerCoroutine(y));
-
-			//	for (int x = 0; x < gridWeight; ++x) {
-			//		Object.Destroy (grid [x, y].gameObject);
-			//		grid [x, y] = null;
-			//	}
-
-		}
-
-		public  void DeleteRow()
-		{
-			for (int y = 0; y < gridHeight; ++y) 
-			{
-				if (IsRowFull (y)) 
-				{
-					Debug.Log ("Before cocoutine!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-					//AppRoot.Instance.StartCoroutine (DestroyerCoroutine(y));
-
-					Debug.Log ("After cocoutine");
-					//Delete (y);
-					//while (IsRowFull (y)) {
-					//}
-					//Delete (y);
-
-					MoveRowDownAll (y + 1);
-					--y;
-
-				}
-
-			}
-
-		}
-
+			
 		public  void MoveRowDown (int y) 
 		{
 			for (int x = 0; x < gridWeight; ++x) 
@@ -428,19 +308,15 @@ namespace LikeTet
 			oneTurnLinesCount=0;
 			levelCount=1;
 		}
-		public  void UpdateLevel()
-		{
-			levelCount = 1;
-			Debug.Log (levelCount + " Level count");
 
-		}
 		public  void UpdateFallSpeed()
 		{
 			//fallSpeed= 1.0f- (float)levelCount*0.1f;
 			fallSpeed= levelCount;
 		}
 
-		 IEnumerator VanishingCoroutine (int y){
+		 IEnumerator VanishingCoroutine (int y)
+		{
 
 
 
@@ -465,7 +341,8 @@ namespace LikeTet
 
 		}
 
-		 IEnumerator DestroyerCoroutine (int y){
+		 IEnumerator DestroyerCoroutine (int y)
+		{
 			yield return AppRoot.Instance.StartCoroutine (VanishingCoroutine(y));
 			//Debug.Log ("After Vanishing");
 			//for (int x = 0; x < gridWeight; ++x) {
@@ -475,35 +352,31 @@ namespace LikeTet
 			yield return null;
 		}
 
-		IEnumerator MoveDownCoroutine () {
+		IEnumerator MoveDownCoroutine ()
+		{
 			yield return new WaitForSeconds (1f/levelCount); //1f/(fallSpeed+1)
-			Debug.Log (fallSpeed);
+			if (fallingShape != null) {
+				Debug.Log (fallSpeed);
 
-			fallingShape.transform.position += new Vector3 (0,-1,0);
-			if (isValidPosition ()) {
-				GridUpdate ();
-			} else {
-					fallingShape.transform.position += new Vector3 (0,1,0);
+				fallingShape.transform.position += new Vector3 (0, -1, 0);
+				if (isValidPosition ()) {
+					GridUpdate ();
+				} else {
+					fallingShape.transform.position += new Vector3 (0, 1, 0);
 
-					for (int y = 0; y < gridHeight; ++y) 
-					{
-						if (IsRowFull (y)) 
-						{
+					for (int y = 0; y < gridHeight; ++y) {
+						if (IsRowFull (y)) {
 							oneTurnLinesCount++;
 
 							Debug.Log ("Eror11111111111111111111111111");
 							yield return AppRoot.Instance.StartCoroutine (DestroyerCoroutine (y));
-							//AppRoot.Instance.StartCoroutine (DestroyerCoroutine(y));
+							
 
 							Debug.Log ("After cocoutine");
 							for (int x = 0; x < gridWeight; ++x) {
 								Object.Destroy (grid [x, y].gameObject);
 								grid [x, y] = null;
 							}
-							//Delete (y);
-							//while (IsRowFull (y)) {
-							//}
-							//Delete (y);
 
 							MoveRowDownAll (y + 1);
 							--y;
@@ -511,21 +384,20 @@ namespace LikeTet
 						}
 						
 					}
-					UpdateScore ();
-					//UpdateLevel ();
-					//UpdateFallSpeed ();
-
-					//DeleteRow ();
+					UpdateScore ();					
+					
 					lastShape = fallingShape;
 
-
-					fallingShape=null;
+					fallingShape = null;
 
 
 				}
-			fall = Time.time;
-			AppRoot.Instance.StartCoroutine (MoveDownCoroutine());
+				AppRoot.Instance.StartCoroutine (MoveDownCoroutine ());
+			}
+			
 		}
+		#endregion
+		///////////////////////////////////////////////////////////////////////////
 	}
 
 }

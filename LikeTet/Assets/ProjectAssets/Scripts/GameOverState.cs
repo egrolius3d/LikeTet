@@ -5,10 +5,17 @@ using UnityEngine.UI;
 namespace LikeTet
 {
 	public class GameOverState : AppState {
-		GameObject gameOverButton;
+		///////////////////////////////////////////////////////////////////////////
+		#region Variables
 
+		GameObject gameOverButton;
 		GameObject gameOverPanel;
 
+		#endregion
+		///////////////////////////////////////////////////////////////////////////
+
+		///////////////////////////////////////////////////////////////////////////
+		#region Implementation
 		public  override void Initialize() 
 		{
 
@@ -56,5 +63,7 @@ namespace LikeTet
 			
 			AppRoot.Instance.SetState (EAppStateId.MainMenu);
 		}
+		#endregion
+		///////////////////////////////////////////////////////////////////////////
 	}	
 }

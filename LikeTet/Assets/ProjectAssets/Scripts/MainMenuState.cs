@@ -5,6 +5,8 @@ using UnityEngine.UI;
 namespace LikeTet
 {
 	public class MainMenuState : AppState {
+		///////////////////////////////////////////////////////////////////////////
+		#region Variables
 		GameObject gameButton;
 		GameObject newGameButton;
 		GameObject exitButton;
@@ -20,7 +22,12 @@ namespace LikeTet
 		GameObject aboutPanel;
 
 		GameObject gridMain;
-
+		GameObject backgroundGrid;
+		#endregion
+		///////////////////////////////////////////////////////////////////////////
+	
+		///////////////////////////////////////////////////////////////////////////
+		#region Implementation
 		public override void Activate (IStateData data, bool reset)
 		{
 			mId = EAppStateId.MainMenu;
@@ -45,6 +52,7 @@ namespace LikeTet
 			aboutPanel = GameObject.Find ("AboutPanel");
 
 			gridMain = GameObject.Find ("Grid");
+			backgroundGrid = GameObject.Find ("BackgroundGrid");
 	
 
 			gameButton.GetComponent<Button>().onClick.AddListener (OnClickGameButton);
@@ -67,10 +75,12 @@ namespace LikeTet
 			aboutButton.SetActive (false);
 
 			gridMain.SetActive (true);
+			backgroundGrid.SetActive (true);
 			Debug.Log("Initialize main menu state");
 
 		}
 
+		///////////////////////////////////////////////////////////////////////////
 		public override void Update ()
 		{
 
@@ -82,12 +92,14 @@ namespace LikeTet
 
 			Debug.Log ("Update from Main Menu");
 		}
-
+		///////////////////////////////////////////////////////////////////////////
 		public void OnClickGameButton()
 		{
 			AppRoot.Instance.SetState (EAppStateId.MainMenu);
 			newGameButton.SetActive (true);
 			exitButton.SetActive (true);
+			aboutButton.SetActive (false);
+			rulesButton.SetActive (false);
 		}
 
 		public void OnClickNewGameButton()
@@ -110,6 +122,8 @@ namespace LikeTet
 		public void OnClickHelpButton()
 		{
 			AppRoot.Instance.SetState (EAppStateId.MainMenu);
+			newGameButton.SetActive (false);
+			exitButton.SetActive (false);
 			rulesButton.SetActive (true);
 			aboutButton.SetActive (true);
 		}
@@ -117,6 +131,7 @@ namespace LikeTet
 		public void OnClickRulesButton()
 		{
 			gridMain.SetActive (false);
+			backgroundGrid.SetActive (false);
 			mainMenuPanel.SetActive (false);
 
 			rulesPanel.SetActive (true);
@@ -127,6 +142,7 @@ namespace LikeTet
 		public void OnClickAboutButton()
 		{
 			gridMain.SetActive (false);
+			backgroundGrid.SetActive (false);
 			mainMenuPanel.SetActive (false);
 			aboutPanel.SetActive (true);
 			rulesButton.SetActive (false);
@@ -137,11 +153,14 @@ namespace LikeTet
 		{
 			
 			gridMain.SetActive (true);
+			backgroundGrid.SetActive (true);
 			mainMenuPanel.SetActive (true);
+
 			rulesPanel.SetActive (false);
 			aboutPanel.SetActive (false);
 
 		}
-
+		#endregion
+		///////////////////////////////////////////////////////////////////////////
 	}
 }

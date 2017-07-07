@@ -4,9 +4,9 @@ using UnityEngine;
 namespace LikeTet
 { 
 	public  class AppState   {
-    /////////////////////////////////////////////////////////////
-    #region Variables
-    public EAppStateId mId; // переменная перечисления для установки номера состояния
+    	/////////////////////////////////////////////////////////////
+    	#region Variables
+    	public EAppStateId mId; // переменная перечисления для установки номера состояния
         // у AppState есть два значения в словаре состояния GameState и MainMenuState()
         // mid присвоить номер соответственно к классу EAppStateId.MainMenu =  mStates[EAppStateId.Game] = new GameState();
         // mStates[EAppStateId.MainMenu] = new MainMenuState();
@@ -15,45 +15,44 @@ namespace LikeTet
         #endregion
         /////////////////////////////////////////////////////////////
 
+		/////////////////////////////////////////////////////////////
+		#region Implementation
 
-		public  virtual void Activate (IStateData data, bool reset)
-	{
+			public  virtual void Activate (IStateData data, bool reset){
 			DestroyAllGameObjects ();//Debug.Log ("Activate APP STATE");
-	}
-		public  virtual void Deactivate ()
-	{
-		//Debug.Log ("Deactivate");
-	}
-
-        public  virtual void Initialize() // выполняется при запуске метод start
-        {
-			// AppRoot.Instance.
-           // mId = EAppStateId.Game;
-
-        }
-			
-		public virtual void Update()
-		{
-			 Debug.Log ("Update from AppState");
-		}
-			
-        public virtual void OnGUI()
-        {
-          //  Debug.Log("OnGUI");
-        }
-        public virtual void OnUiAction(GameObject pressedGo, object p)
-        {
-           // Debug.Log("OnUiAction");
-        }
-
-		public static void DestroyAllGameObjects()
-		{
-			GameObject[] gameObjects = GameObject.FindGameObjectsWithTag ("basicShape");
-			for (var i = 0; i < gameObjects.Length; i++) 
-			{
-				AppRoot.Destroy (gameObjects [i]);
+			}
+			public  virtual void Deactivate (){
+				//Debug.Log ("Deactivate");
 			}
 
-		}
-}
+        	public  virtual void Initialize(){
+				// AppRoot.Instance.
+           	// mId = EAppStateId.Game;
+
+        	}
+			
+			public virtual void Update(){
+			 	//Debug.Log ("Update from AppState");
+			}
+			
+        	public virtual void OnGUI(){
+          		//  Debug.Log("OnGUI");
+        	}
+
+        	public virtual void OnUiAction(GameObject pressedGo, object p){
+           		// Debug.Log("OnUiAction");
+        	}
+
+			public static void DestroyAllGameObjects()
+			{
+				GameObject[] gameObjects = GameObject.FindGameObjectsWithTag ("basicShape");
+				for (var i = 0; i < gameObjects.Length; i++) 
+				{
+					AppRoot.Destroy (gameObjects [i]);
+				}
+
+			}
+		#endregion
+		/////////////////////////////////////////////////////////////
+	}
 }
