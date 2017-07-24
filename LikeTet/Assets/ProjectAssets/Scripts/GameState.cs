@@ -8,6 +8,10 @@ namespace LikeTet
 		
 		///////////////////////////////////////////////////////////////////////////
 		#region Variables
+
+		GameObject view;
+		ViewScript viewScript;
+
 		public int oneLineScore = 1;
 		public int twoLineScore = 2;
 		public int threeLineScore = 3;
@@ -28,9 +32,9 @@ namespace LikeTet
 		public int howManyRows = 0;
 
 
-		GameObject totalLinesText;
-		GameObject scoreText;
-		GameObject levelText;
+		//GameObject totalLinesText;
+		//GameObject scoreText;
+		//GameObject levelText;
 
 		GameObject fallingShape;
 		GameObject nextShape;
@@ -57,7 +61,7 @@ namespace LikeTet
 		{
 			ResetScore ();
 			mId = EAppStateId.Game;
-			SetScoreText ();
+			//SetScoreText ();
 			Debug.Log ("Activate from Game State");
 			Debug.Log ("This is game Mid = "+mId);
 			Debug.Log ("This is base Mid = "+base.mId);
@@ -80,6 +84,8 @@ namespace LikeTet
 		}
 		public  override void Initialize () //state start
 		{
+			view = GameObject.Find ("View");
+			viewScript=view.GetComponent <ViewScript>();
 			Debug.Log ("Initialize  game state");
 		}
 			
@@ -286,20 +292,20 @@ namespace LikeTet
 
 
 
-		public  void SetScoreText()
-		{
-			scoreText= GameObject.Find ("scoreText");
+		//public  void SetScoreText()
+		//{
+		//	viewScript.scoreText= GameObject.Find ("scoreText");
 
-			totalLinesText = GameObject.Find ("lineCountText");
+		//	viewScript.totalLinesText = GameObject.Find ("lineCountText");
 
-			levelText= GameObject.Find ("levelText");
-		}
+		//	viewScript.levelText= GameObject.Find ("levelText");
+		//}
 
 		public  void UpdateUI()
 		{
-			scoreText.GetComponent<Text>().text = scoreCount.ToString ();
-			totalLinesText.GetComponent<Text>().text= totalLinesCount.ToString ();
-			levelText.GetComponent<Text>().text = levelCount.ToString ();
+			viewScript.scoreText.GetComponent<Text>().text = scoreCount.ToString ();
+			viewScript.totalLinesText.GetComponent<Text>().text= totalLinesCount.ToString ();
+			viewScript.levelText.GetComponent<Text>().text = levelCount.ToString ();
 		}
 		public  void ResetScore ()
 		{

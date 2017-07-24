@@ -7,7 +7,10 @@ namespace LikeTet
 	public class MainMenuState : AppState {
 		///////////////////////////////////////////////////////////////////////////
 		#region Variables
-		GameObject gameButton;
+		GameObject view;
+		ViewScript viewScript;
+
+		/*GameObject gameButton;
 		GameObject newGameButton;
 		GameObject exitButton;
 
@@ -23,6 +26,7 @@ namespace LikeTet
 
 		GameObject gridMain;
 		GameObject backgroundGrid;
+		*/
 		#endregion
 		///////////////////////////////////////////////////////////////////////////
 	
@@ -37,7 +41,9 @@ namespace LikeTet
 
 		public  override void Initialize() // выполняется при запуске 
 		{
-
+			view = GameObject.Find ("View");
+			viewScript=view.GetComponent <ViewScript>();
+			/*
 			gameButton = GameObject.Find ("GameButton");
 			exitButton = GameObject.Find ("ExitButton");
 			newGameButton = GameObject.Find ("NewGameButton");
@@ -52,30 +58,30 @@ namespace LikeTet
 			aboutPanel = GameObject.Find ("AboutPanel");
 
 			gridMain = GameObject.Find ("Grid");
-			backgroundGrid = GameObject.Find ("BackgroundGrid");
+			backgroundGrid = GameObject.Find ("BackgroundGrid");*/
 	
 
-			gameButton.GetComponent<Button>().onClick.AddListener (OnClickGameButton);
-			exitButton.GetComponent<Button>().onClick.AddListener (OnClickExitButton);
-			newGameButton.GetComponent<Button>().onClick.AddListener (OnClickNewGameButton);
+			viewScript.gameButton.GetComponent<Button>().onClick.AddListener (OnClickGameButton);
+			viewScript.exitButton.GetComponent<Button>().onClick.AddListener (OnClickExitButton);
+			viewScript.newGameButton.GetComponent<Button>().onClick.AddListener (OnClickNewGameButton);
 
-			helpButton.GetComponent<Button>().onClick.AddListener (OnClickHelpButton);
-			rulesButton.GetComponent<Button>().onClick.AddListener (OnClickRulesButton);
-			aboutButton.GetComponent<Button>().onClick.AddListener (OnClickAboutButton);
+			viewScript.helpButton.GetComponent<Button>().onClick.AddListener (OnClickHelpButton);
+			viewScript.rulesButton.GetComponent<Button>().onClick.AddListener (OnClickRulesButton);
+			viewScript.aboutButton.GetComponent<Button>().onClick.AddListener (OnClickAboutButton);
 
-			okRulesButton.GetComponent<Button> ().onClick.AddListener (OnClickOkRulesAbouButton);
-			okAboutButton.GetComponent<Button> ().onClick.AddListener (OnClickOkRulesAbouButton);
+			viewScript.okRulesButton.GetComponent<Button> ().onClick.AddListener (OnClickOkRulesAbouButton);
+			viewScript.okAboutButton.GetComponent<Button> ().onClick.AddListener (OnClickOkRulesAbouButton);
 
-			aboutPanel.SetActive (false);
-			rulesPanel.SetActive (false);
+			viewScript.aboutPanel.SetActive (false);
+			viewScript.rulesPanel.SetActive (false);
 
-			newGameButton.SetActive (false);
-			exitButton.SetActive (false);
-			rulesButton.SetActive (false);
-			aboutButton.SetActive (false);
+			viewScript.newGameButton.SetActive (false);
+			viewScript.exitButton.SetActive (false);
+			viewScript.rulesButton.SetActive (false);
+			viewScript.aboutButton.SetActive (false);
 
-			gridMain.SetActive (true);
-			backgroundGrid.SetActive (true);
+			viewScript.gridMain.SetActive (true);
+			viewScript.backgroundGrid.SetActive (true);
 			Debug.Log("Initialize main menu state");
 
 		}
@@ -96,16 +102,16 @@ namespace LikeTet
 		public void OnClickGameButton()
 		{
 			AppRoot.Instance.SetState (EAppStateId.MainMenu);
-			newGameButton.SetActive (true);
-			exitButton.SetActive (true);
-			aboutButton.SetActive (false);
-			rulesButton.SetActive (false);
+			viewScript.newGameButton.SetActive (true);
+			viewScript.exitButton.SetActive (true);
+			viewScript.aboutButton.SetActive (false);
+			viewScript.rulesButton.SetActive (false);
 		}
 
 		public void OnClickNewGameButton()
 		{
-			newGameButton.SetActive (false);
-			exitButton.SetActive (false);
+			viewScript.newGameButton.SetActive (false);
+			viewScript.exitButton.SetActive (false);
 
 			AppRoot.Instance.SetState (EAppStateId.Game);
 
@@ -114,50 +120,50 @@ namespace LikeTet
 
 		public void OnClickExitButton()
 		{
-			newGameButton.SetActive (false);
-			exitButton.SetActive (false);
+			viewScript.newGameButton.SetActive (false);
+			viewScript.exitButton.SetActive (false);
 			Application.Quit();
 		}
 
 		public void OnClickHelpButton()
 		{
 			AppRoot.Instance.SetState (EAppStateId.MainMenu);
-			newGameButton.SetActive (false);
-			exitButton.SetActive (false);
-			rulesButton.SetActive (true);
-			aboutButton.SetActive (true);
+			viewScript.newGameButton.SetActive (false);
+			viewScript.exitButton.SetActive (false);
+			viewScript.rulesButton.SetActive (true);
+			viewScript.aboutButton.SetActive (true);
 		}
 
 		public void OnClickRulesButton()
 		{
-			gridMain.SetActive (false);
-			backgroundGrid.SetActive (false);
-			mainMenuPanel.SetActive (false);
+			viewScript.gridMain.SetActive (false);
+			viewScript.backgroundGrid.SetActive (false);
+			viewScript.mainMenuPanel.SetActive (false);
 
-			rulesPanel.SetActive (true);
-			rulesButton.SetActive (false);
-			aboutButton.SetActive (false);
+			viewScript.rulesPanel.SetActive (true);
+			viewScript.rulesButton.SetActive (false);
+			viewScript.aboutButton.SetActive (false);
 		}
 
 		public void OnClickAboutButton()
 		{
-			gridMain.SetActive (false);
-			backgroundGrid.SetActive (false);
-			mainMenuPanel.SetActive (false);
-			aboutPanel.SetActive (true);
-			rulesButton.SetActive (false);
-			aboutButton.SetActive (false);
+			viewScript.gridMain.SetActive (false);
+			viewScript.backgroundGrid.SetActive (false);
+			viewScript.mainMenuPanel.SetActive (false);
+			viewScript.aboutPanel.SetActive (true);
+			viewScript.rulesButton.SetActive (false);
+			viewScript.aboutButton.SetActive (false);
 		}
 
 		public void OnClickOkRulesAbouButton ()
 		{
 			
-			gridMain.SetActive (true);
-			backgroundGrid.SetActive (true);
-			mainMenuPanel.SetActive (true);
+			viewScript.gridMain.SetActive (true);
+			viewScript.backgroundGrid.SetActive (true);
+			viewScript.mainMenuPanel.SetActive (true);
 
-			rulesPanel.SetActive (false);
-			aboutPanel.SetActive (false);
+			viewScript.rulesPanel.SetActive (false);
+			viewScript.aboutPanel.SetActive (false);
 
 		}
 		#endregion

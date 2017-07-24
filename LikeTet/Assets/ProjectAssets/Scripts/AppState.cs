@@ -19,7 +19,7 @@ namespace LikeTet
 		#region Implementation
 
 			public  virtual void Activate (IStateData data, bool reset){
-			DestroyAllGameObjects ();//Debug.Log ("Activate APP STATE");
+			
 			}
 			public  virtual void Deactivate (){
 				//Debug.Log ("Deactivate");
@@ -42,16 +42,6 @@ namespace LikeTet
         	public virtual void OnUiAction(GameObject pressedGo, object p){
            		// Debug.Log("OnUiAction");
         	}
-
-			public static void DestroyAllGameObjects()
-			{
-				GameObject[] gameObjects = GameObject.FindGameObjectsWithTag ("basicShape");
-				for (var i = 0; i < gameObjects.Length; i++) 
-				{
-					AppRoot.Destroy (gameObjects [i]);
-				}
-
-			}
 		#endregion
 		/////////////////////////////////////////////////////////////
 	}
