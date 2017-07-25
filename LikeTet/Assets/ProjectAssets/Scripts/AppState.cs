@@ -18,7 +18,7 @@ namespace LikeTet
 		/////////////////////////////////////////////////////////////
 		#region Implementation
 
-			public  virtual void Activate (IStateData data, bool reset){
+			public  virtual void Activate (bool reset){
 			
 			}
 			public  virtual void Deactivate (){

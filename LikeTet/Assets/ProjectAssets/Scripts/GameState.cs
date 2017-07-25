@@ -9,8 +9,8 @@ namespace LikeTet
 		///////////////////////////////////////////////////////////////////////////
 		#region Variables
 
-		GameObject view;
-		ViewScript viewScript;
+		public GameObject view;
+		public ViewScript viewScript;
 
 		public int oneLineScore = 1;
 		public int twoLineScore = 2;
@@ -31,14 +31,9 @@ namespace LikeTet
 		public float hightFallSpeed = 3;
 		public int howManyRows = 0;
 
-
-		//GameObject totalLinesText;
-		//GameObject scoreText;
-		//GameObject levelText;
-
-		GameObject fallingShape;
-		GameObject nextShape;
-		GameObject lastShape;
+		private GameObject fallingShape;
+		private GameObject nextShape;
+		private GameObject lastShape;
 
 
 		public string[] basicShapesPath = new string[7]
@@ -57,11 +52,10 @@ namespace LikeTet
 
 		///////////////////////////////////////////////////////////////////////////
 		#region Implementation
-		public   override void Activate (IStateData data, bool reset)
+		public   override void Activate (bool reset)
 		{
 			ResetScore ();
 			mId = EAppStateId.Game;
-			//SetScoreText ();
 			Debug.Log ("Activate from Game State");
 			Debug.Log ("This is game Mid = "+mId);
 			Debug.Log ("This is base Mid = "+base.mId);
@@ -137,8 +131,9 @@ namespace LikeTet
 				foreach (Transform child in lastShape.transform) 
 				{
 					Vector3 pos = round (child.position);
-					if (pos.y >= 20)
+					if (pos.y >= 20) {
 						return true;
+					}
 				}
 			}
 			return false;
@@ -148,22 +143,24 @@ namespace LikeTet
 		{
 			if (fallingShape != null) {
 				if (Input.GetKeyDown (KeyCode.LeftArrow)) {
-					fallingShape.transform.position += new Vector3 (-1, 0, 0);
-					if (isValidPosition ())
+					fallingShape.transform.position += Vector3.left;
+					if (isValidPosition ()) {
 						GridUpdate ();
+					}
 					else
-						fallingShape.transform.position += new Vector3 (1, 0, 0);
+						fallingShape.transform.position += Vector3.right;
 				} else if (Input.GetKeyDown (KeyCode.RightArrow)) {
-					fallingShape.transform.position += new Vector3 (1, 0, 0);
-					if (isValidPosition ())
+					fallingShape.transform.position += Vector3.right;
+					if (isValidPosition ()) {
 						GridUpdate ();
+					}
 					else
-						fallingShape.transform.position += new Vector3 (-1, 0, 0);
+						fallingShape.transform.position +=Vector3.left;
 				} else if (Input.GetKeyDown (KeyCode.DownArrow)) {
 					while (isValidPosition ()) {
-						fallingShape.transform.position += new Vector3 (0, -1, 0);
+						fallingShape.transform.position += Vector3.down;
 						if (!isValidPosition ()) {
-							fallingShape.transform.position += new Vector3 (0, 1, 0);
+							fallingShape.transform.position += Vector3.up;
 							break;
 						}
 						GridUpdate (); 
@@ -183,11 +180,13 @@ namespace LikeTet
 			foreach (Transform child in fallingShape.transform) 
 			{
 				Vector3 curVector= round (child.position);
-				if (!isInsideGrid (curVector))
+				if (!isInsideGrid (curVector)) {
 					return false;
+				}
 				if (grid [(int)curVector.x, (int)curVector.y] != null &&
-					grid [(int)curVector.x, (int)curVector.y].parent != fallingShape.transform)
+				    grid [(int)curVector.x, (int)curVector.y].parent != fallingShape.transform) {
 					return false;
+				}
 			}
 			return true;
 		}
@@ -210,8 +209,9 @@ namespace LikeTet
 					
 					if (grid [x, y] != null) 
 					{
-						if (grid [x, y].parent == fallingShape.transform)
+						if (grid [x, y].parent == fallingShape.transform) {
 							grid [x, y] = null;
+						}
 					}
 				}
 			}
@@ -226,8 +226,9 @@ namespace LikeTet
 		public  bool IsRowFull (int y)
 		{
 			for (int x = 0; x < gridWeight; ++x)
-				if (grid [x, y] == null)
+				if (grid [x, y] == null) {
 					return false;
+				}
 			
 			return true;
 		}
@@ -240,7 +241,7 @@ namespace LikeTet
 				{
 					grid [x, y - 1] = grid [x, y];
 					grid [x, y] = null;
-					grid [x, y - 1].position += new Vector3 (0,-1,0);
+					grid [x, y - 1].position += Vector3.down;
 				}
 			}
 		}
@@ -292,14 +293,7 @@ namespace LikeTet
 
 
 
-		//public  void SetScoreText()
-		//{
-		//	viewScript.scoreText= GameObject.Find ("scoreText");
 
-		//	viewScript.totalLinesText = GameObject.Find ("lineCountText");
-
-		//	viewScript.levelText= GameObject.Find ("levelText");
-		//}
 
 		public  void UpdateUI()
 		{
@@ -364,11 +358,11 @@ namespace LikeTet
 			if (fallingShape != null) {
 				Debug.Log (fallSpeed);
 
-				fallingShape.transform.position += new Vector3 (0, -1, 0);
+				fallingShape.transform.position += Vector3.down;
 				if (isValidPosition ()) {
 					GridUpdate ();
 				} else {
-					fallingShape.transform.position += new Vector3 (0, 1, 0);
+					fallingShape.transform.position += Vector3.up;
 
 					for (int y = 0; y < gridHeight; ++y) {
 						if (IsRowFull (y)) {

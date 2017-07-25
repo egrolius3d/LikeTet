@@ -31,20 +31,20 @@ namespace LikeTet
 
         public void SetState(EAppStateId id)
         {
-            SetState(id, false, null);
+            SetState(id, false);
         }
+
+       // public void SetState(EAppStateId id, bool resetState)
+       // {
+       //     SetState(id, resetState);
+       // }
+
+        //public void SetState(EAppStateId id)
+       // {
+       //     SetState(id, false);
+       // }
 
         public void SetState(EAppStateId id, bool resetState)
-        {
-            SetState(id, resetState, null);
-        }
-
-        public void SetState(EAppStateId id, IStateData data)
-        {
-            SetState(id, false, data);
-        }
-
-        public void SetState(EAppStateId id, bool resetState, IStateData data)
         {
             if (mCurState == null)
             {
@@ -62,7 +62,7 @@ namespace LikeTet
                 }
 
                 mCurState = newState;
-                mCurState.Activate(data, resetState);
+                mCurState.Activate(resetState);
                 return;
             }
             Debug.Log(id + " " + mCurState.mId);
@@ -85,7 +85,7 @@ namespace LikeTet
                 {
                     mCurState.Deactivate();
                     mCurState = newState;
-                    mCurState.Activate(data, resetState);
+                    mCurState.Activate(resetState);
                 }
                 else
                 {

@@ -7,32 +7,15 @@ namespace LikeTet
 	public class MainMenuState : AppState {
 		///////////////////////////////////////////////////////////////////////////
 		#region Variables
-		GameObject view;
-		ViewScript viewScript;
+		public GameObject view;
+		public ViewScript viewScript;
 
-		/*GameObject gameButton;
-		GameObject newGameButton;
-		GameObject exitButton;
-
-		GameObject helpButton;
-		GameObject rulesButton;
-		GameObject aboutButton;
-		GameObject okRulesButton;
-		GameObject okAboutButton;
-
-		GameObject mainMenuPanel;
-		GameObject rulesPanel;
-		GameObject aboutPanel;
-
-		GameObject gridMain;
-		GameObject backgroundGrid;
-		*/
 		#endregion
 		///////////////////////////////////////////////////////////////////////////
 	
 		///////////////////////////////////////////////////////////////////////////
 		#region Implementation
-		public override void Activate (IStateData data, bool reset)
+		public override void Activate (bool reset)
 		{
 			mId = EAppStateId.MainMenu;
 			Debug.Log ("Activate main menu");
@@ -43,23 +26,6 @@ namespace LikeTet
 		{
 			view = GameObject.Find ("View");
 			viewScript=view.GetComponent <ViewScript>();
-			/*
-			gameButton = GameObject.Find ("GameButton");
-			exitButton = GameObject.Find ("ExitButton");
-			newGameButton = GameObject.Find ("NewGameButton");
-			helpButton = GameObject.Find ("HelpButton");
-			rulesButton = GameObject.Find ("RulesButton");
-			aboutButton = GameObject.Find ("AboutButton");
-			okAboutButton = GameObject.Find ("OkAboutButton");
-			okRulesButton = GameObject.Find ("OkRulesButton");
-
-			mainMenuPanel = GameObject.Find ("MainMenuPanel");
-			rulesPanel = GameObject.Find ("RulesPanel");
-			aboutPanel = GameObject.Find ("AboutPanel");
-
-			gridMain = GameObject.Find ("Grid");
-			backgroundGrid = GameObject.Find ("BackgroundGrid");*/
-	
 
 			viewScript.gameButton.GetComponent<Button>().onClick.AddListener (OnClickGameButton);
 			viewScript.exitButton.GetComponent<Button>().onClick.AddListener (OnClickExitButton);

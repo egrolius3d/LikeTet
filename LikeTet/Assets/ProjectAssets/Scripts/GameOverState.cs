@@ -7,10 +7,10 @@ namespace LikeTet
 	public class GameOverState : AppState {
 		///////////////////////////////////////////////////////////////////////////
 		#region Variables
-		GameObject view;
-		ViewScript viewScript;
-		GameObject gameOverButton;
-		GameObject gameOverPanel;
+		public GameObject view;
+		public ViewScript viewScript;
+		//GameObject gameOverButton;
+		//GameObject gameOverPanel;
 
 		#endregion
 		///////////////////////////////////////////////////////////////////////////
@@ -23,9 +23,6 @@ namespace LikeTet
 			view = GameObject.Find ("View");
 			viewScript=view.GetComponent <ViewScript>();
 
-			//viewScript.gameOverPanel = GameObject.Find ("GameOverPanel");
-			//viewScript.okGameOverButton = GameObject.Find ("OkGameOverButton");
-
 			viewScript.okGameOverButton.GetComponent<Button>().onClick.AddListener (OnClickGameOverButton);
 			viewScript.gameOverPanel.SetActive (false);
 			viewScript.okGameOverButton.SetActive (false);
@@ -34,7 +31,7 @@ namespace LikeTet
 			Debug.Log ("Inialize GameOverState");
 		}
 
-		public override void Activate (IStateData data, bool reset)
+		public override void Activate (bool reset)
 		{
 			mId = EAppStateId.GameOver;
 			viewScript.gameOverPanel.SetActive (true);
